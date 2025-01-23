@@ -300,8 +300,7 @@
           "group": "Continous Integration",
           "pages": [
             "deploy/ci/github-actions",
-            "deploy/ci/gitlab-ci",
-            "deploy/ci/circle-ci"
+            "deploy/ci/gitlab-ci"
           ]
         }
       ]
