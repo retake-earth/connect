@@ -168,6 +168,33 @@ impl SearchIndexWriter {
         Ok(())
     }
 
+    pub fn insert_as_block(
+        &mut self,
+        child_documents: Vec<SearchDocument>,
+        parent_document: SearchDocument,
+        ctid: u64,
+    ) -> Result<()> {
+        let mut tantivy_docs: Vec<TantivyDocument> =
+            child_documents.into_iter().map(|doc| doc.into()).collect();
+
+        let mut parent_doc: TantivyDocument = parent_document.into();
+        parent_doc.add_u64(self.ctid_field, ctid);
+
+        // Parent document must be added last.
+        tantivy_docs.push(parent_doc);
+
+        // All docs must be added contiguously, so we add them all before
+        // flushing the insert queue.
+        for doc in tantivy_docs {
+            self.insert_queue.push(UserOperation::Add(doc));
+        }
+
+        if self.insert_queue.len() >= MAX_INSERT_QUEUE_SIZE {
+            self.drain_insert_queue()?;
+        }
+        Ok(())
+    }
+
     pub fn commit(mut self) -> Result<()> {
         self.drain_insert_queue()?;
         let mut writer = self.writer.take().expect("IndexWriter should be set");
