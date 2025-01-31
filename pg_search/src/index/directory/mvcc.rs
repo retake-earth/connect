@@ -307,10 +307,6 @@ impl Directory for MVCCDirectory {
 
         Some(Box::new(NoMergePolicy))
     }
-
-    fn supports_garbage_collection(&self) -> bool {
-        false
-    }
 }
 
 #[cfg(any(test, feature = "pg_test"))]

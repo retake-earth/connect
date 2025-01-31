@@ -175,10 +175,6 @@ impl Directory for ChannelDirectory {
 
         oneshot_receiver.recv().unwrap()
     }
-
-    fn supports_garbage_collection(&self) -> bool {
-        false
-    }
 }
 
 type Action = Box<dyn FnOnce() -> Reply + Send + Sync>;
