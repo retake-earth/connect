@@ -41,8 +41,8 @@ fn snippet_from_relation(
     start_tag: default!(String, "'<b>'"),
     end_tag: default!(String, "'</b>'"),
     max_num_chars: default!(i32, "150"),
-) -> Option<String> {
-    None
+) -> String {
+    panic!("`paradedb.snippet()` function called in unsupported context.");
 }
 
 extension_sql!(

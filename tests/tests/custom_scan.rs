@@ -344,6 +344,34 @@ fn scores_survive_joins(mut conn: PgConnection) {
     );
 }
 
+#[rstest]
+fn scores_error_when_non_custom_scan(mut conn: PgConnection) {
+    SimpleProductsTable::setup().execute(&mut conn);
+
+    let result =
+      "SELECT id, paradedb.score(id) FROM paradedb.bm25_search WHERE description @@@ 'keyboard' AND paradedb.score(id) > 0"
+        .fetch_result::<(i32, f32)>(&mut conn);
+    assert!(result.is_err());
+    assert_eq!(
+        "error returned from database: `paradedb.score()` function called in unsupported context.",
+        &format!("{}", result.err().unwrap())
+    );
+}
+
+#[rstest]
+fn snippets_error_when_non_custom_scan(mut conn: PgConnection) {
+    SimpleProductsTable::setup().execute(&mut conn);
+
+    let result =
+      "SELECT id, paradedb.snippet(description) FROM paradedb.bm25_search WHERE description @@@ 'keyboard' AND paradedb.snippet(description) LIKE 'Ergonomic%'"
+        .fetch_result::<(i32, String)>(&mut conn);
+    assert!(result.is_err());
+    assert_eq!(
+        "error returned from database: `paradedb.snippet()` function called in unsupported context.",
+        &format!("{}", result.err().unwrap())
+    );
+}
+
 #[rustfmt::skip]
 #[rstest]
 fn join_issue_1776(mut conn: PgConnection) {

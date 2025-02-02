@@ -733,7 +733,6 @@ fn bm25_partial_index_hybrid(mut conn: PgConnection) {
         SELECT id, RANK () OVER (ORDER BY paradedb.score(id) DESC) AS rank
         FROM mock_items
         WHERE mock_items @@@ 'rating:>1'
-        AND category = 'Electronics'
         LIMIT 20
     )
     SELECT
@@ -780,7 +779,6 @@ fn bm25_partial_index_hybrid(mut conn: PgConnection) {
         SELECT id, RANK () OVER (ORDER BY paradedb.score(id) DESC) AS rank
         FROM mock_items
         WHERE mock_items @@@ 'rating:>1'
-        AND category = 'Electronics'
         LIMIT 20
     )
     SELECT

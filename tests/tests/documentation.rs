@@ -1987,14 +1987,14 @@ fn hybrid_search(mut conn: PgConnection) {
 
     let rows: Vec<(i32, BigDecimal, String, Vector)> = r#"
     WITH bm25_candidates AS (
-        SELECT id
+        SELECT id, paradedb.score(id)
         FROM mock_items
         WHERE description @@@ 'keyboard'
         ORDER BY paradedb.score(id) DESC
         LIMIT 20
     ),
     bm25_ranked AS (
-        SELECT id, RANK() OVER (ORDER BY paradedb.score(id) DESC) AS rank
+        SELECT id, RANK() OVER (ORDER BY score DESC) AS rank
         FROM bm25_candidates
     ),
     semantic_search AS (

@@ -23,8 +23,8 @@ use pgrx::{
 use std::ptr::addr_of_mut;
 
 #[pg_extern(name = "score", stable, parallel_safe, cost = 1)]
-fn score_from_relation(_relation_reference: AnyElement) -> Option<f32> {
-    None
+fn score_from_relation(_relation_reference: AnyElement) -> f32 {
+    panic!("`paradedb.score()` function called in unsupported context.");
 }
 
 extension_sql!(
