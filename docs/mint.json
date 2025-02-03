@@ -271,7 +271,7 @@
       "pages": [
         "deploy/overview",
         {
-          "group": "Self-Hosted ParadeDB",
+          "group": "ParadeDB Self-Hosted",
           "pages": [
             "deploy/self-hosted/kubernetes",
             "deploy/self-hosted/extensions",
@@ -295,7 +295,14 @@
         "deploy/byoc",
         "deploy/enterprise",
         "deploy/upgrading",
-        "deploy/third-party-extensions"
+        "deploy/third-party-extensions",
+        {
+          "group": "Continuous Integration",
+          "pages": [
+            "deploy/ci/github-actions",
+            "deploy/ci/gitlab-ci"
+          ]
+        }
       ]
     },
     {
