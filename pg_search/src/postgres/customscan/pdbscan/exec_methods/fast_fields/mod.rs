@@ -265,7 +265,11 @@ pub fn assign_exec_method(builder: &mut CustomScanStateBuilder<PdbScan, PrivateD
             .custom_state()
             .assign_exec_method(StringFastFieldExecState::new(field, which_fast_fields));
     } else if is_numeric_fast_field_capable(builder.custom_state()) {
-        let which_fast_fields = builder.custom_state().which_fast_fields.clone().unwrap();
+        let which_fast_fields = builder
+            .custom_state()
+            .which_fast_fields
+            .clone()
+            .unwrap_or_default();
         builder
             .custom_state()
             .assign_exec_method(NumericFastFieldExecState::new(which_fast_fields));
@@ -307,7 +311,11 @@ pub fn is_string_agg_capable_ex(
 }
 
 fn is_numeric_fast_field_capable(state: &PdbScanState) -> bool {
-    if state.which_fast_fields.is_none() || state.targetlist_len == 0 {
+    if state.targetlist_len == 0 {
+        return true;
+    }
+
+    if state.which_fast_fields.is_none() {
         return false;
     }
 
