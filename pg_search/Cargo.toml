@@ -9,7 +9,7 @@ license = { workspace = true }
 crate-type = ["cdylib", "rlib"]
 
 [features]
-default = ["pg17"]
+default = ["telemetry", "pg17"]
 pg13 = ["pgrx/pg13", "pgrx-tests/pg13"]
 pg14 = ["pgrx/pg14", "pgrx-tests/pg14"]
 pg15 = ["pgrx/pg15", "pgrx-tests/pg15"]
@@ -17,6 +17,7 @@ pg16 = ["pgrx/pg16", "pgrx-tests/pg16"]
 pg17 = ["pgrx/pg17", "pgrx-tests/pg17"]
 pg_test = []
 icu = ["tokenizers/icu"]
+telemetry = []
 unsafe-postgres = ["pgrx/unsafe-postgres"]
 
 [dependencies]
